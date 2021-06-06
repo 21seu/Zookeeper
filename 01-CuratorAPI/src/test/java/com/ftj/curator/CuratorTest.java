@@ -5,9 +5,12 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 public class CuratorTest {
 
@@ -45,6 +48,8 @@ public class CuratorTest {
         client.start();
     }
 
+//=============================================================================================
+
     /**
      * 创建节点：create 持久/临时/顺序 数据
      * 1、基本创建
@@ -81,6 +86,36 @@ public class CuratorTest {
         //creatingParentsIfNeeded()：如果父节点不存在则创建父节点
         String path = client.create().creatingParentsIfNeeded().forPath("/app3");
         System.out.println(path);
+    }
+
+//=============================================================================================
+
+    /**
+     * 查询节点：
+     * 1、查询数据：get   getData().forPath("/app1");
+     * 2、查询子节点：ls   getChildren().forPath("/app4")
+     * 3、查询节点状态信息：ls -s     Stat stat = new Stat();     getData().storingStatIn(stat).forPath("/app1");
+     */
+    @Test
+    public void testGet() throws Exception {
+        //1、查询数据：get
+        byte[] bytes = client.getData().forPath("/app1");
+        System.out.println(new java.lang.String(bytes));
+    }
+
+    @Test
+    public void testGet2() throws Exception {
+        //2、查询子节点：ls
+        List<String> list = client.getChildren().forPath("/app4");
+        System.out.println(list);
+    }
+
+    @Test
+    public void testGet3() throws Exception {
+        Stat stat = new Stat();
+        //3、查询节点状态信息：ls -s
+        client.getData().storingStatIn(stat).forPath("/app1");
+        System.out.println(stat);
     }
 
     @After
