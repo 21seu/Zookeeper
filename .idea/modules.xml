@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/01-CuratorAPI/01-CuratorAPI.iml" filepath="$PROJECT_DIR$/01-CuratorAPI/01-CuratorAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/Zookeeper.iml" filepath="$PROJECT_DIR$/Zookeeper.iml" />
     </modules>
   </component>
