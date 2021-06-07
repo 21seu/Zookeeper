@@ -48,7 +48,7 @@ public class CuratorTest {
         client.start();
     }
 
-//=============================================================================================
+//====================create======================================================================
 
     /**
      * 创建节点：create 持久/临时/顺序 数据
@@ -88,7 +88,7 @@ public class CuratorTest {
         System.out.println(path);
     }
 
-//=============================================================================================
+//======================get======================================================================
 
     /**
      * 查询节点：
@@ -117,6 +117,31 @@ public class CuratorTest {
         client.getData().storingStatIn(stat).forPath("/app1");
         System.out.println(stat);
     }
+
+
+//======================set======================================================================
+
+    /**
+     * 修改数据
+     * 1、修改数据   setData().forPath();
+     * 2、根据版本修改 setData().withVersion(version).forPath();  version是通过查询出来的，目的是为了让其他客户端或线程不干扰我
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testSet() throws Exception {
+        client.setData().forPath("/app1", "fengtj".getBytes());
+    }
+
+    @Test
+    public void testSetForVersion() throws Exception {
+        Stat stat = new Stat();
+        client.getData().storingStatIn(stat).forPath("/app1");
+        int version = stat.getVersion();
+        System.out.println(version);
+        client.setData().withVersion(version).forPath("/app1", "fengtj".getBytes());
+    }
+
 
     @After
     public void close() {
